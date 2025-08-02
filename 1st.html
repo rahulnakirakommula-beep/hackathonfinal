@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarah Johnson - Frontend Developer | TechCorp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .member-details h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .member-details p {
+            color: #2E7D32;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .contributions-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1B5E20;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contribution-item {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4CAF50;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .contribution-item:hover {
+            background: rgba(76, 175, 80, 0.15);
+            transform: translateX(5px);
+        }
+
+        .contribution-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1B5E20;
+            margin-bottom: 0.5rem;
+        }
+
+        .contribution-desc {
+            color: #2E7D32;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .code-snippet {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .comment {
+            color: #81C784;
+            font-style: italic;
+        }
+
+        .keyword {
+            color: #64B5F6;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #FFB74D;
+        }
+
+        .function {
+            color: #F06292;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(76, 175, 80, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .stat-label {
+            color: #388E3C;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Code Comments Section */
+        .comments-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .comment-block {
+            background: #f8f8f8;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .comment-author {
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .comment-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .comment-text {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .code-reference {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .member-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contribution-item, .comment-block {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .contribution-item:nth-child(1) { animation-delay: 0.1s; }
+        .contribution-item:nth-child(2) { animation-delay: 0.2s; }
+        .contribution-item:nth-child(3) { animation-delay: 0.3s; }
+        .contribution-item:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="member-info">
+                <div class="member-avatar">SJ</div>
+                <div class="member-details">
+                    <h1>Sarah Johnson</h1>
+                    <p>Frontend Developer & UI Specialist</p>
+                </div>
+            </div>
+            <a href="main.html" class="back-btn">← Back to Dashboard</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Contributions Section -->
+            <div class="contributions-section">
+                <h2 class="section-title">🎨 My Contributions to the Dashboard</h2>
+                
+                <div class="contribution-item">
+                    <div class="contribution-title">Responsive Design & Layout</div>
+                    <div class="contribution-desc">
+                        I designed and implemented the entire responsive grid system and glassmorphism design language that makes our dashboard beautiful and functional across all devices.
+                    </div>
+                    <div class="code-snippet">
+<span class="comment">/* My responsive grid system for the folders */</span>
+<span class="keyword">.folders-section</span> {
+    <span class="keyword">display</span>: <span class="string">grid</span>;
+    <span class="keyword">grid-template-columns</span>: <span class="function">repeat(auto-fit, minmax(300px, 1fr))</span>;
+    <span class="keyword">gap</span>: <span class="string">1rem</span>;
+    <span class="keyword">align-content</span>: <span class="string">start</span>;
+}
+
+<span class="comment">/* Glassmorphism cards I designed */</span>
+<span class="keyword">.folder-card</span> {
+    <span class="keyword">background</span>: <span class="function">rgba(255, 255, 255, 0.95)</span>;
+    <span class="keyword">backdrop-filter</span>: <span class="function">blur(20px)</span>;
+    <span class="keyword">border</span>: <span class="string">1px solid rgba(255, 255, 255, 0.3)</span>;
+}
+                    </div>
+                </div>
+
+                <div class="contribution-item">
+                    <div class="contribution-title">Interactive Animations & Hover Effects</div>
+                    <div class="contribution-desc">
+                        Created smooth animations and micro-interactions that bring the interface to life, including card hover effects, loading animations, and page transitions.
+                    </div>
+                    <div class="code-snippet">
+<span class="comment">/* Smooth hover animations I crafted */</span>
+<span class="keyword">.folder-card:hover</span> {
+    <span class="keyword">transform</span>: <span class="function">translateY(-5px)</span>;
+    <span class="keyword">box-shadow</span>: <span class="string">0 12px 40px rgba(102, 126, 234, 0.3)</span>;
+    <span class="keyword">border-color</span>: <span class="function">rgba(102, 126, 234, 0.4)</span>;
+}
+
+<span class="comment">/* Loading animation for chat messages */</span>
+<span class="keyword">@keyframes</span> <span class="function">slideInChat</span> {
+    <span class="keyword">from</span> { <span class="keyword">opacity</span>: <span class="string">0</span>; <span class="keyword">transform</span>: <span class="function">translateY(10px)</span>; }
+    <span class="keyword">to</span> { <span class="keyword">opacity</span>: <span class="string">1</span>; <span class="keyword">transform</span>: <span class="function">translateY(0)</span>; }
+}
+                    </div>
+                </div>
+
+                <div class="contribution-item">
+                    <div class="contribution-title">Color System & Visual Hierarchy</div>
+                    <div class="contribution-desc">
+                        Developed the complete color palette, typography scale, and visual hierarchy that ensures excellent readability and user experience throughout the application.
+                    </div>
+                    <div class="code-snippet">
+<span class="comment">/* Color system I established */</span>
+<span class="keyword">body</span> {
+    <span class="keyword">background</span>: <span class="function">linear-gradient(135deg, #667eea 0%, #764ba2 100%)</span>;
+}
+
+<span class="comment">/* Status colors for different states */</span>
+<span class="keyword">.status-active</span> { <span class="keyword">color</span>: <span class="string">#2E7D32</span>; }
+<span class="keyword">.status-pending</span> { <span class="keyword">color</span>: <span class="string">#E65100</span>; }
+<span class="keyword">.status-review</span> { <span class="keyword">color</span>: <span class="string">#1565C0</span>; }
+                    </div>
+                </div>
+
+                <div class="contribution-item">
+                    <div class="contribution-title">Mobile-First Responsive Design</div>
+                    <div class="contribution-desc">
+                        Implemented comprehensive responsive breakpoints ensuring the dashboard works flawlessly on mobile devices, tablets, and desktops with optimized layouts for each screen size.
+                    </div>
+                    <div class="code-snippet">
+<span class="comment">/* Mobile-first responsive approach */</span>
+<span class="keyword">@media (max-width: 768px)</span> {
+    <span class="keyword">.folders-section</span> {
+        <span class="keyword">grid-template-columns</span>: <span class="string">1fr</span>;
+        <span class="keyword">gap</span>: <span class="string">0.75rem</span>;
+    }
+    
+    <span class="keyword">.chatbot-section</span> {
+        <span class="keyword">height</span>: <span class="string">35vh</span>;
+        <span class="keyword">min-height</span>: <span class="string">180px</span>;
+    }
+}
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Lines of CSS</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15</div>
+                        <div class="stat-label">Components Styled</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Animations Created</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Mobile Responsive</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Comments Section -->
+            <div class="comments-section">
+                <h2 class="section-title">💬 My Code Comments & Documentation</h2>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Sarah Johnson</span>
+                        <span class="comment-date">3 days ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "I've optimized the CSS grid system to automatically adjust the number of columns based on available space. This ensures our dashboard looks great on any screen size without manual intervention."
+                    </div>
+                    <div class="code-reference">
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+// This automatically creates responsive columns!</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Sarah Johnson</span>
+                        <span class="comment-date">5 days ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Added glassmorphism effect with backdrop-filter: blur() for a modern, premium feel. The semi-transparent cards with blur create depth while maintaining readability of background elements."
+                    </div>
+                    <div class="code-reference">
+backdrop-filter: blur(20px);
+background: rgba(255, 255, 255, 0.95);
+// Creates that beautiful frosted glass effect</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Sarah Johnson</span>
+                        <span class="comment-date">1 week ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Implemented smooth micro-interactions for better user feedback. The subtle hover animations and transform effects make the interface feel responsive and alive without being distracting."
+                    </div>
+                    <div class="code-reference">
+transition: all 0.3s ease;
+transform: translateY(-5px);
+// Smooth animations enhance UX significantly</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Sarah Johnson</span>
+                        <span class="comment-date">1 week ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Established a comprehensive color system with semantic naming. Each status color has high contrast ratios for accessibility compliance and clear visual hierarchy."
+                    </div>
+                    <div class="code-reference">
+:root {
+  --success-color: #2E7D32;
+  --warning-color: #E65100;
+  --info-color: #1565C0;
+}
+// Consistent color system across the app</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Sarah Johnson</span>
+                        <span class="comment-date">2 weeks ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Mobile-first responsive design approach ensures optimal performance on all devices. I've carefully considered touch targets, readability, and navigation patterns for mobile users."
+                    </div>
+                    <div class="code-reference">
+@media (max-width: 480px) {
+  .folder-card { min-height: 160px; }
+  .message { max-width: 90%; }
+}
+// Mobile users are our priority</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

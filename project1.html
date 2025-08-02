@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechCorp Learning Hub - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            height: calc(100vh - 2rem);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .company-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #1a1a1a; /* Much darker, brighter text */
+        }
+
+        /* Chatbot Section - 1/4 of space */
+        .chatbot-section {
+            height: 25vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 200px;
+        }
+
+        .chat-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .message {
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px;
+            max-width: 80%;
+            font-size: 0.9rem;
+            animation: slideInChat 0.3s ease;
+        }
+
+        .ai-message {
+            background: rgba(102, 126, 234, 0.15);
+            color: #1a1a1a; /* Much brighter text */
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            font-weight: 500; /* Slightly bolder */
+        }
+
+        .user-message {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-container {
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.02);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.6rem 0.75rem;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            outline: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            color: #1a1a1a; /* Brighter input text */
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .chat-input::placeholder {
+            color: #4a4a4a; /* Brighter placeholder */
+        }
+
+        .send-btn {
+            padding: 0.6rem 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Folders Section - 3/4 of space */
+        .folders-section {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            align-content: start;
+        }
+
+        .folder-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .folder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+
+        .folder-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .folder-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .folder-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .folder-card:hover .folder-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .folder-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0d0d0d; /* Much brighter title text */
+            margin-bottom: 0.5rem;
+        }
+
+        .folder-description {
+            color: #2a2a2a; /* Much brighter description text */
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            flex: 1;
+            font-weight: 500; /* Slightly bolder for better visibility */
+        }
+
+        .folder-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .folder-count {
+            font-size: 0.8rem;
+            color: #333; /* Brighter stats text */
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-weight: 500; /* Bolder stats */
+        }
+
+        .folder-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700; /* Much bolder status text */
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: rgba(76, 175, 80, 0.2);
+            color: #2E7D32; /* Darker, more vibrant green */
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #E65100; /* Darker, more vibrant orange */
+        }
+
+        .status-review {
+            background: rgba(33, 150, 243, 0.2);
+            color: #1565C0; /* Darker, more vibrant blue */
+        }
+
+        /* Specific folder styling */
+        .folder-codes {
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.1), rgba(255, 152, 0, 0.1));
+        }
+
+        .folder-codes .folder-icon {
+            background: linear-gradient(45deg, #FF5722, #FF9800);
+        }
+
+        .folder-team1 {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(139, 195, 74, 0.1));
+        }
+
+        .folder-team1 .folder-icon {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+        }
+
+        .folder-team2 {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(3, 169, 244, 0.1));
+        }
+
+        .folder-team2 .folder-icon {
+            background: linear-gradient(45deg, #2196F3, #03A9F4);
+        }
+
+        .folder-team3 {
+            background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(233, 30, 99, 0.1));
+        }
+
+        .folder-team3 .folder-icon {
+            background: linear-gradient(45deg, #9C27B0, #E91E63);
+        }
+
+        .folder-team4 {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 235, 59, 0.1));
+        }
+
+        .folder-team4 .folder-icon {
+            background: linear-gradient(45deg, #FFC107, #FFEB3B);
+        }
+
+        .folder-todo {
+            background: linear-gradient(135deg, rgba(121, 85, 72, 0.1), rgba(158, 158, 158, 0.1));
+        }
+
+        .folder-todo .folder-icon {
+            background: linear-gradient(45deg, #795548, #9E9E9E);
+        }
+
+        /* Animations */
+        @keyframes slideInChat {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .folder-card {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .folder-card:nth-child(1) { animation-delay: 0.1s; }
+        .folder-card:nth-child(2) { animation-delay: 0.2s; }
+        .folder-card:nth-child(3) { animation-delay: 0.3s; }
+        .folder-card:nth-child(4) { animation-delay: 0.4s; }
+        .folder-card:nth-child(5) { animation-delay: 0.5s; }
+        .folder-card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .folders-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .chatbot-section {
+                height: 30vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .folders-section {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .folder-card {
+                min-height: 160px;
+                padding: 1rem;
+            }
+
+            .folder-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .chatbot-section {
+                height: 35vh;
+                min-height: 180px;
+            }
+
+            .chat-messages {
+                padding: 0.75rem;
+            }
+
+            .message {
+                font-size: 0.85rem;
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-container {
+                height: calc(100vh - 1rem);
+            }
+
+            .company-name {
+                font-size: 1.2rem;
+            }
+
+            .folder-title {
+                font-size: 1.1rem;
+            }
+
+            .folder-description {
+                font-size: 0.85rem;
+            }
+
+            .chatbot-section {
+                height: 40vh;
+                min-height: 160px;
+            }
+        }
+
+        /* Loading animation */
+        .typing-indicator {
+            display: none;
+            padding: 0.5rem 0.75rem;
+            background: rgba(102, 126, 234, 0.15);
+            border-radius: 12px;
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+            max-width: 80px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #667eea;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            40% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="company-name">TechCorp Learning Hub</div>
+            <div class="user-info">
+                <div class="user-avatar">JS</div>
+                <div class="user-name">John Smith</div>
+            </div>
+        </div>
+
+        <!-- Chatbot Section (1/4 of space) -->
+        <div class="chatbot-section">
+            <div class="chat-header">
+                🤖 AI Assistant - Quick Help
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai-message">
+                    Hi John! I'm here to help you manage your dashboard. Ask me about your projects, team updates, or anything else!
+                </div>
+                <div class="message user-message">
+                    What's the status of my current projects?
+                </div>
+                <div class="message ai-message">
+                    You have 3 active projects, 2 pending reviews, and 5 items in your to-do list. Team 2 needs attention - they have 8 pending tasks. Would you like me to show details for any specific area?
+                </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" placeholder="Ask me anything..." id="chatInput">
+                <button class="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+        <!-- Folders Section (3/4 of space) -->
+        <div class="folders-section">
+            <!-- Codes Folder -->
+            <div class="folder-card folder-codes" onclick="openFolder('codes')">
+                <div class="folder-icon">💻</div>
+                <div class="folder-title">Codes</div>
+                <div class="folder-description">
+                    Development projects, source code repositories, and technical documentation. Latest commits and code reviews.
+                </div>
+                <div class="folder-stats">
+                    <div class="folder-count">
+                        📁 24 files • 🔄 3 active
+                    </div>
+                    <div class="folder-status status-active">Active</div>
+                </div>
+            </div>
+
+            <!-- Team Member 1 -->
+            <div class="folder-card folder-team1" onclick="openFolder('team1')">
+                <div class="folder-icon">👨‍💻</div>
+                <div class="folder-title">Team Member 1</div>
+                <div class="folder-description">
+                    Sarah Johnson - Frontend Developer. Current assignments, progress reports, and collaboration files.
+                </div>
+                <div class="folder-stats">
+                    <div class="folder-count">
+                        📝 12 tasks • ✅ 8 completed
+                    </div>
+                    <div class="folder-status status-active">Active</div>
+                </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="folder-card folder-team2" onclick="openFolder('team2')">
+                <div class="folder-icon">👩‍💼</div>
+                <div class="folder-title">Team Member 2</div>
+                <div class="folder-description">
+                    Mike Rodriguez - Backend Developer. Database designs, API documentation, and server configurations.
+                </div>
+                <div class="folder-stats">
+                    <div class="folder-count">
+                        📝 15 tasks • ⏳ 8 pending
+                    </div>
+                    <div class="folder-status status-pending">Pending</div>
+                </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="folder-card folder-team3" onclick="openFolder('team3')">
+                <div class="folder-icon">👨‍🎨</div>
+                <div class="folder-title">Team Member 3</div>
+                <div class="folder-description">
+                    Emma Davis - UI/UX Designer. Design mockups, user research, and prototype files for review.
+                </div>
+                <div class="folder-stats">
+                    <div class="folder-count">
+                        🎨 9 designs • 👀 3 review
+                    </div>
+                    <div class="folder-status status-review">Review</div>
+                </div>
+            </div>
+
+            <!-- Team Member 4 -->
+            <div class="folder-card folder-team4" onclick="openFolder('team4')">
+                <div class="folder-icon">👩‍🔬</div>
+                <div class="folder-title">Team Member 4</div>
+                <div class="folder-description">
+                    Alex Chen - QA Engineer. Testing protocols, bug reports, and quality assurance documentation.
+                </div>
+                <div class="folder-stats">
+                    <div class="folder-count">
+                        🐛 6 tests • ✅ 4 passed
+                    </div>
+                    <div class="folder-status status-active">Active</div>
+                </div>
+            </div>
+
+            <!-- To Do List -->
+            <div class="folder-card folder-todo" onclick="openFolder('todo')">
+                <div class="folder-icon">📋</div>
+                <div class="folder-title">To Do List</div>
+                <div class="folder-description">
+                    Personal and team tasks, deadlines, reminders, and project milestones. Keep track of everything important.
+                </div>
+                <div class="folder-stats">
+                    <div class="folder-count">
+                        ✓ 12 done • 📌 5 priority
+                    </div>
+                    <div class="folder-status status-pending">5 Items</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chat functionality
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingIndicator = document.getElementById('typingIndicator');
+            
+            if (input.value.trim() === '') return;
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.textContent = input.value;
+            messagesContainer.appendChild(userMessage);
+            
+            // Store user input and clear
+            const userText = input.value;
+            input.value = '';
+            
+            // Show typing indicator
+            typingIndicator.style.display = 'block';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Simulate AI response
+            setTimeout(() => {
+                // Hide typing indicator
+                typingIndicator.style.display = 'none';
+                
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'message ai-message';
+                aiMessage.textContent = getAIResponse(userText);
+                messagesContainer.appendChild(aiMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 1500);
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // AI response generator
+        function getAIResponse(userInput) {
+            const input = userInput.toLowerCase();
+            
+            if (input.includes('code') || input.includes('development')) {
+                return "Your Codes folder has 24 files with 3 active projects. Latest commit was 2 hours ago. Need help with any specific repository?";
+            } else if (input.includes('team') || input.includes('member')) {
+                return "Team overview: Sarah (Team 1) is on track, Mike (Team 2) has 8 pending tasks, Emma (Team 3) has 3 designs in review, Alex (Team 4) passed 4/6 tests. Who would you like to check on?";
+            } else if (input.includes('todo') || input.includes('task')) {
+                return "You have 5 priority items in your To-Do list: 2 urgent deadlines this week, 3 follow-ups needed. Would you like me to show the details?";
+            } else if (input.includes('status') || input.includes('progress')) {
+                return "Overall progress: 78% completion rate this sprint. Codes folder is active, Team 2 needs attention, 3 items awaiting review. Everything else is on track!";
+            } else if (input.includes('help')) {
+                return "I can help you with: checking project status, team updates, managing your to-do list, opening specific folders, or answering questions about your dashboard. What do you need?";
+            } else {
+                const responses = [
+                    "I can help you navigate your dashboard. Try asking about your team, projects, or to-do items!",
+                    "Looking at your folders, everything seems organized. Is there a specific area you'd like to focus on?",
+                    "Your dashboard shows good progress overall. What would you like to work on next?",
+                    "I'm here to help manage your workspace. Ask me about any folder or team member!",
+                    "All systems running smoothly! Let me know if you need details about any specific project or team member."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        }
+
+        // Folder opening functionality
+        function openFolder(folderType) {
+            const folderNames = {
+                'codes': 'Codes',
+                'team1': 'Team Member 1 (Sarah Johnson)',
+                'team2': 'Team Member 2 (Mike Rodriguez)', 
+                'team3': 'Team Member 3 (Emma Davis)',
+                'team4': 'Team Member 4 (Alex Chen)',
+                'todo': 'To Do List'
+            };
+
+            const navigationMap = {
+                'codes': 'codes.html',
+                'team1': '1st.html',
+                'team2': '2nd.html',
+                'team3': '3rd.html',
+                'team4': '4th.html',
+                'todo': 'to_do.html'
+            };
+            
+            // Add click animation
+            event.currentTarget.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                event.currentTarget.style.transform = '';
+            }, 150);
+            
+            // Navigate to the corresponding HTML file
+            setTimeout(() => {
+                const targetFile = navigationMap[folderType];
+                if (targetFile) {
+                    window.location.href = targetFile;
+                } else {
+                    alert(`Opening ${folderNames[folderType]} folder...\n\nNavigation file not found.`);
+                }
+            }, 200);
+        }
+
+        // Handle Enter key in chat
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Auto-scroll chat to bottom on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+
+        // Add real-time clock to header (optional enhancement)
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // You can add this to the header if desired
+            // document.querySelector('.user-info').innerHTML += `<div class="current-time">${timeString}</div>`;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some initial loading animations
+            const folderCards = document.querySelectorAll('.folder-card');
+            folderCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Alt + C for Codes
+            if (e.altKey && e.key === 'c') {
+                e.preventDefault();
+                openFolder('codes');
+            }
+            // Alt + T for Todo
+            if (e.altKey && e.key === 't') {
+                e.preventDefault();
+                openFolder('todo');
+            }
+            // Alt + 1-4 for team members
+            if (e.altKey && ['1','2','3','4'].includes(e.key)) {
+                e.preventDefault();
+                openFolder(`team${e.key}`);
+            }
+        });
+    </script>
+</body>
+</html>

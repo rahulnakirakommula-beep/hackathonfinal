@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Chen - QA Engineer | TechCorp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFC107 0%, #FFEB3B 100%);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #FFC107, #FFEB3B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .member-details h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FFC107, #FFEB3B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .member-details p {
+            color: #F57F17;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, #FFC107, #FFEB3B);
+            color: #333;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .contributions-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #E65100;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contribution-item {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #FFC107;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .contribution-item:hover {
+            background: rgba(255, 193, 7, 0.15);
+            transform: translateX(5px);
+        }
+
+        .contribution-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #E65100;
+            margin-bottom: 0.5rem;
+        }
+
+        .contribution-desc {
+            color: #F57F17;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .code-snippet {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .comment {
+            color: #FFEB3B;
+            font-style: italic;
+        }
+
+        .keyword {
+            color: #81C784;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #FFB74D;
+        }
+
+        .function {
+            color: #64B5F6;
+        }
+
+        .variable {
+            color: #F06292;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 193, 7, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #F57F17;
+        }
+
+        .stat-label {
+            color: #FF8F00;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Code Comments Section */
+        .comments-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .comment-block {
+            background: #f8f8f8;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #FFC107;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .comment-author {
+            font-weight: 700;
+            color: #F57F17;
+        }
+
+        .comment-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .comment-text {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .code-reference {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        /* Test Results Display */
+        .test-result {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 235, 59, 0.1));
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 2px solid #FFC107;
+            text-align: center;
+            color: #E65100;
+            font-weight: 600;
+        }
+
+        .test-passed {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(139, 195, 74, 0.1));
+            color: #2E7D32;
+        }
+
+        .test-failed {
+            border-color: #F44336;
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(255, 87, 34, 0.1));
+            color: #C62828;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .member-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contribution-item, .comment-block {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .contribution-item:nth-child(1) { animation-delay: 0.1s; }
+        .contribution-item:nth-child(2) { animation-delay: 0.2s; }
+        .contribution-item:nth-child(3) { animation-delay: 0.3s; }
+        .contribution-item:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="member-info">
+                <div class="member-avatar">AC</div>
+                <div class="member-details">
+                    <h1>Alex Chen</h1>
+                    <p>QA Engineer & Testing Specialist</p>
+                </div>
+            </div>
+            <a href="main.html" class="back-btn">← Back to Dashboard</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Contributions Section -->
+            <div class="contributions-section">
+                <h2 class="section-title">🔍 My QA & Testing Contributions</h2>
+                
+                <div class="contribution-item">
+                    <div class="contribution-title">Cross-Browser Compatibility Testing</div>
+                    <div class="contribution-desc">
+                        Conducted comprehensive testing across Chrome, Firefox, Safari, and Edge to ensure consistent behavior. Identified and documented browser-specific issues and provided solutions for CSS compatibility.
+                    </div>
+                    <div class="test-result test-passed">
+                        ✅ Test Status: ALL BROWSERS COMPATIBLE
+                    </div>
+                    <div class="code-snippet">
+<span class="comment">/* Browser compatibility fixes I identified */</span>
+<span class="keyword">.folder-card</span> {
+    <span class="keyword">-webkit-backdrop-filter</span>: <span class="function">blur(20px)</span>; <span class="comment">/* Safari support */</span>
+    <span class="keyword">backdrop-filter</span>: <span class="function">blur(20px)</span>; <span class="comment">/* Standard property */</span>
+}
+
+<span class="comment">/* CSS Grid fallback for older browsers */</span>
+<span class="keyword">@supports not (display: grid)</span> {
+    <span class="keyword">.folders-section</span> {
+        <span class="keyword">display</span>: <span class="string">flex</span>;
+        <span class="keyword">flex-wrap</span>: <span class="string">wrap</span>;
+    }
+}
+                    </div>
+                </div>
+
+                <div class="contribution-item">
+                    <div class="contribution-title">Responsive Design Validation</div>
+                    <div class="contribution-desc">
+                        Tested the dashboard across 15+ device sizes from mobile phones to large desktops. Validated touch targets, text readability, and interaction patterns for optimal user experience on all devices.
+                    </div>
+                    <div class="test-result test-passed">
+                        📱 Test Status: FULLY RESPONSIVE (320px - 2560px)
+                    </div>
+                    <div class="code-snippet">
+<span class="comment">/* Responsive breakpoints I validated */</span>
+<span class="keyword">@media (max-width: 480px)</span> {
+    <span class="keyword">.folder-card</span> {
+        <span class="keyword">min-height</span>: <span class="string">160px</span>; <span class="comment">/* Touch-friendly size */</span>
+        <span class="keyword">padding</span>: <span class="string">1rem</span>; <span class="comment">/* Adequate spacing */</span>
+    }
+    
+    <span class="keyword">.message</span> {
+        <span class="keyword">max-width</span>: <span class="string">90%</span>; <span class="comment">/* Mobile chat optimization */</span>
+    }
+}
+                    </div>
+                </div>
+
+                <div class="contribution-item">
+                    <div class="contribution-title">Performance & Accessibility Auditing</div>
+                    <div class="contribution-desc">
+                        Ran comprehensive Lighthouse audits and accessibility tests. Ensured WCAG 2.1 compliance, proper color contrast ratios, and optimized loading performance. Validated keyboard navigation and screen reader compatibility.
+                    </div>
+                    <div class="test-result test-passed">
+                        ⚡ Performance Score: 95/100 | 🌐 Accessibility: AA Compliant
+                    </div>
+                    <div class="code-snippet">
+<span class="comment">/* Accessibility improvements I recommended */</span>
+<span class="keyword">.folder-title</span> {
+    <span class="keyword">color</span>: <span class="string">#0d0d0d</span>; <span class="comment">/* Contrast ratio: 15.3:1 */</span>
+    <span class="keyword">font-weight</span>: <span class="string">700</span>; <span class="comment">/* Enhanced readability */</span>
+}
+
+<span class="comment">/* Keyboard navigation support */</span>
+<span class="keyword">.folder-card:focus</span> {
+    <span class="keyword">outline</span>: <span class="string">2px solid #667eea</span>;
+    <span class="keyword">outline-offset</span>: <span class="string">2px</span>;
+}
+                    </div>
+                </div>
+
+                <div class="contribution-item">
+                    <div class="contribution-title">JavaScript Functionality Testing</div>
+                    <div class="contribution-desc">
+                        Thoroughly tested all interactive features including chat functionality, folder navigation, animations, and keyboard shortcuts. Created test cases for edge cases and error handling scenarios.
+                    </div>
+                    <div class="test-result test-passed">
+                        🔧 Test Status: ALL FUNCTIONS WORKING | 0 CRITICAL BUGS
+                    </div>
+                    <div class="code-snippet">
+<span class="comment">/* Test scenarios I validated */</span>
+<span class="keyword">function</span> <span class="function">testChatInput</span>() {
+    <span class="comment">// ✅ Empty input handling</span>
+    <span class="comment">// ✅ Long message handling</span>
+    <span class="comment">// ✅ Special characters</span>
+    <span class="comment">// ✅ Enter key functionality</span>
+    <span class="comment">// ✅ Auto-scroll behavior</span>
+}
+
+<span class="keyword">function</span> <span class="function">testNavigation</span>() {
+    <span class="comment">// ✅ All folder links work</span>
+    <span class="comment">// ✅ Keyboard shortcuts functional</span>
+    <span class="comment">// ✅ Animation timing correct</span>
+}
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Test Cases</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15</div>
+                        <div class="stat-label">Devices Tested</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">95</div>
+                        <div class="stat-label">Performance Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Critical Bugs</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Comments Section -->
+            <div class="comments-section">
+                <h2 class="section-title">💬 My Testing Reports & QA Comments</h2>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Alex Chen</span>
+                        <span class="comment-date">1 day ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Final regression testing complete! All features are working perfectly across all target browsers and devices. The chat system handles edge cases gracefully, and the navigation is smooth on both desktop and mobile."
+                    </div>
+                    <div class="code-reference">
+/* Regression Test Results - PASSED ✅ */
+- Chat input validation: ✅
+- Responsive layouts: ✅  
+- Keyboard shortcuts: ✅
+- Animation performance: ✅
+- Cross-browser compatibility: ✅</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Alex Chen</span>
+                        <span class="comment-date">3 days ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Identified a minor issue with the typing indicator timing on slower devices. Recommended increasing the setTimeout delay from 1000ms to 1500ms for better user experience. The change makes the AI responses feel more natural."
+                    </div>
+                    <div class="code-reference">
+/* Performance Testing - Timing Optimization */
+setTimeout(() => {
+    typingIndicator.style.display = 'none';
+    // Increased from 1000ms to 1500ms for better UX
+}, 1500);
+// Tested on low-end devices - significant improvement</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Alex Chen</span>
+                        <span class="comment-date">5 days ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Accessibility audit completed! All color contrasts meet WCAG AA standards. The folder titles now have sufficient contrast (15.3:1 ratio), and keyboard navigation works perfectly. Screen readers can access all content properly."
+                    </div>
+                    <div class="code-reference">
+/* Accessibility Testing Results */
+.folder-title { color: #0d0d0d; } /* Contrast: 15.3:1 ✅ */
+.folder-description { color: #2a2a2a; } /* Contrast: 8.9:1 ✅ */
+.status-active { color: #2E7D32; } /* Contrast: 7.2:1 ✅ */
+// All text meets WCAG AA requirements</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Alex Chen</span>
+                        <span class="comment-date">1 week ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Mobile testing revealed that the chat input needs better touch target sizing. Recommended increasing padding to 0.6rem for easier tapping on small screens. Also validated that all animations perform smoothly on mobile devices."
+                    </div>
+                    <div class="code-reference">
+/* Mobile Usability Testing - Touch Targets */
+.chat-input {
+    padding: 0.6rem 0.75rem; /* Increased for mobile */
+    min-height: 44px; /* iOS touch target guideline */
+}
+.send-btn {
+    padding: 0.6rem 1rem; /* Adequate touch area */
+}
+// Meets mobile accessibility standards</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Alex Chen</span>
+                        <span class="comment-date">1 week ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Keyboard navigation testing successful! Alt+C, Alt+T, and Alt+1-4 shortcuts work perfectly. Added focus indicators for better visibility. Users can navigate the entire interface without a mouse."
+                    </div>
+                    <div class="code-reference">
+/* Keyboard Navigation Test Results */
+document.addEventListener('keydown', function(e) {
+    if (e.altKey && e.key === 'c') {
+        openFolder('codes'); // ✅ Working
+    }
+    if (e.altKey && ['1','2','3','4'].includes(e.key)) {
+        openFolder(`team${e.key}`); // ✅ Working
+    }
+});
+// Full keyboard accessibility implemented</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Alex Chen</span>
+                        <span class="comment-date">2 weeks ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Browser compatibility testing complete across Chrome, Firefox, Safari, and Edge. The backdrop-filter property needed vendor prefixes for Safari. All animations and interactions work consistently across browsers."
+                    </div>
+                    <div class="code-reference">
+/* Cross-Browser Testing - Compatibility Fixes */
+.folder-card {
+    -webkit-backdrop-filter: blur(20px); /* Safari */
+    backdrop-filter: blur(20px); /* Standard */
+}
+/* Tested on:
+   - Chrome 91+: ✅
+   - Firefox 89+: ✅  
+   - Safari 14+: ✅
+   - Edge 91+: ✅ */</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Alex Chen</span>
+                        <span class="comment-date">2 weeks ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Performance testing shows excellent results! Page loads in under 2 seconds, animations are smooth at 60fps, and memory usage is optimized. The CSS animations don't cause layout thrashing - great implementation by the frontend team."
+                    </div>
+                    <div class="code-reference">
+/* Performance Test Metrics */
+- First Contentful Paint: 1.2s ✅
+- Largest Contentful Paint: 1.8s ✅
+- Cumulative Layout Shift: 0.02 ✅
+- Animation Frame Rate: 60fps ✅
+- Memory Usage: <50MB ✅
+// Excellent performance across all metrics</div>
+                </div>
+
+                <div class="comment-block">
+                    <div class="comment-header">
+                        <span class="comment-author">Alex Chen</span>
+                        <span class="comment-date">3 weeks ago</span>
+                    </div>
+                    <div class="comment-text">
+                        "Initial testing phase complete! Set up automated testing framework and created comprehensive test cases for all user interactions. Established testing protocols for responsive design, accessibility, and performance monitoring."
+                    </div>
+                    <div class="code-reference">
+/* QA Testing Framework Setup */
+const testSuites = {
+    functionality: ['chat', 'navigation', 'shortcuts'],
+    responsive: ['mobile', 'tablet', 'desktop'],
+    accessibility: ['contrast', 'keyboard', 'screen-readers'],
+    performance: ['load-time', 'animations', 'memory']
+};
+// Comprehensive testing coverage established</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

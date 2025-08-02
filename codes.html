@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechCorp Learning Hub - Codes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .codes-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            height: calc(100vh - 2rem);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+            min-height: 0;
+        }
+
+        /* Left Panel - Repositories */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            min-height: 0;
+        }
+
+        .repositories-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(45deg, #FF5722, #FF9800);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .repositories-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .repo-item {
+            background: rgba(255, 87, 34, 0.05);
+            border: 1px solid rgba(255, 87, 34, 0.1);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .repo-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.2);
+            border-color: rgba(255, 87, 34, 0.3);
+        }
+
+        .repo-item.active {
+            border-color: #FF5722;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+        }
+
+        .repo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .repo-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .repo-status {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-public {
+            background: rgba(76, 175, 80, 0.2);
+            color: #2E7D32;
+        }
+
+        .status-private {
+            background: rgba(33, 150, 243, 0.2);
+            color: #1565C0;
+        }
+
+        .repo-description {
+            color: #2a2a2a;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.8rem;
+        }
+
+        .repo-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .repo-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Recent Activity */
+        .activity-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .activity-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 0.8rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            animation: slideInRight 0.4s ease;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .commit-icon {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            color: white;
+        }
+
+        .push-icon {
+            background: linear-gradient(45deg, #2196F3, #03A9F4);
+            color: white;
+        }
+
+        .merge-icon {
+            background: linear-gradient(45deg, #9C27B0, #E91E63);
+            color: white;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .activity-details {
+            color: #666;
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .activity-time {
+            color: #888;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Quick Stats */
+        .stats-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.1), rgba(255, 152, 0, 0.1));
+            border-radius: 15px;
+            border: 1px solid rgba(255, 87, 34, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.2);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FF5722;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Code Editor Preview */
+        .editor-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 300px;
+        }
+
+        .editor-header {
+            background: #2d3748;
+            color: white;
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .file-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .file-tab {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-tab.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .code-content {
+            flex: 1;
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-y: auto;
+        }
+
+        .code-line {
+            display: flex;
+            margin-bottom: 0.2rem;
+        }
+
+        .line-number {
+            color: #4a5568;
+            width: 3rem;
+            text-align: right;
+            margin-right: 1rem;
+            user-select: none;
+        }
+
+        .line-content {
+            flex: 1;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: #9f7efe; }
+        .string { color: #0bc5ea; }
+        .comment { color: #68d391; }
+        .function { color: #fbb6ce; }
+        .variable { color: #fed7d7; }
+
+        /* Animations */
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .repo-item {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .repo-item:nth-child(1) { animation-delay: 0.1s; }
+        .repo-item:nth-child(2) { animation-delay: 0.2s; }
+        .repo-item:nth-child(3) { animation-delay: 0.3s; }
+        .repo-item:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+            }
+            
+            .right-panel {
+                flex-direction: row;
+            }
+            
+            .activity-section,
+            .stats-section {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .right-panel {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.5rem;
+            }
+
+            .stat-item {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .stat-number {
+                font-size: 1.2rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .repo-stats {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="codes-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="back-nav">
+                <a href="javascript:history.back()" class="back-btn">
+                    ← Back to Dashboard
+                </a>
+                <div class="page-title">💻 Codes & Repositories</div>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">JS</div>
+                <div class="user-name">John Smith</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Panel -->
+            <div class="left-panel">
+                <!-- Repositories Section -->
+                <div class="repositories-section">
+                    <div class="section-header">
+                        📁 Active Repositories (24)
+                        <div class="section-actions">
+                            <button class="action-btn" onclick="createRepo()">+ New</button>
+                            <button class="action-btn" onclick="refreshRepos()">🔄</button>
+                        </div>
+                    </div>
+                    <div class="repositories-list" id="reposList">
+                        <!-- Repository items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Code Editor Preview -->
+                <div class="editor-section">
+                    <div class="editor-header">
+                        📝 Code Preview
+                        <div class="file-tabs">
+                            <div class="file-tab active" onclick="switchFile('app.js')">app.js</div>
+                            <div class="file-tab" onclick="switchFile('style.css')">style.css</div>
+                            <div class="file-tab" onclick="switchFile('main.html')">main.html</div>
+                        </div>
+                    </div>
+                    <div class="code-content" id="codeContent">
+                        <!-- Code content will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="right-panel">
+                <!-- Quick Stats -->
+                <div class="stats-section">
+                    <div class="section-header">
+                        📊 Quick Stats
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">24</div>
+                            <div class="stat-label">Repositories</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Active</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">127</div>
+                            <div class="stat-label">Commits</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">8</div>
+                            <div class="stat-label">Branches</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="activity-section">
+                    <div class="section-header">
+                        🕒 Recent Activity
+                    </div>
+                    <div class="activity-list" id="activityList">
+                        <!-- Activity items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Repository data
+        const repositories = [
+            {
+                name: 'TechCorp-Frontend',
+                description: 'Main frontend application built with React and TypeScript',
+                status: 'public',
+                language: 'JavaScript',
+                stars: 45,
+                forks: 12,
+                issues: 3,
+                lastCommit: '2 hours ago',
+                active: true
+            },
+            {
+                name: 'API-Gateway',
+                description: 'Microservices API gateway with authentication and rate limiting',
+                status: 'private',
+                language: 'Node.js',
+                stars: 23,
+                forks: 5,
+                issues: 1,
+                lastCommit: '4 hours ago',
+                active: true
+            },
+            {
+                name: 'Database-Scripts',
+                description: 'SQL scripts and database migration tools',
+                status: 'private',
+                language: 'SQL',
+                stars: 8,
+                forks: 2,
+                issues: 0,
+                lastCommit: '1 day ago',
+                active: true
+            },
+            {
+                name: 'Mobile-App',
+                description: 'Cross-platform mobile application using React Native',
+                status: 'public',
+                language: 'TypeScript',
+                stars: 67,
+                forks: 18,
+                issues: 5,
+                lastCommit: '3 days ago',
+                active: false
+            },
+            {
+                name: 'DevOps-Tools',
+                description: 'Docker configurations and deployment scripts',
+                status: 'private',
+                language: 'Shell',
+                stars: 15,
+                forks: 3,
+                issues: 2,
+                lastCommit: '5 days ago',
+                active: false
+            },
+            {
+                name: 'Documentation',
+                description: 'Project documentation and technical guides',
+                status: 'public',
+                language: 'Markdown',
+                stars: 32,
+                forks: 8,
+                issues: 1,
+                lastCommit: '1 week ago',
+                active: false
+            }
+        ];
+
+        // Activity data
+        const activities = [
+            {
+                type: 'commit',
+                title: 'Fixed authentication bug',
+                details: 'Updated JWT token validation in API-Gateway',
+                user: 'Sarah Johnson',
+                time: '2 hours ago',
+                repo: 'API-Gateway'
+            },
+            {
+                type: 'push',
+                title: 'Pushed 3 commits',
+                details: 'Added new dashboard components to TechCorp-Frontend',
+                user: 'Mike Rodriguez',
+                time: '4 hours ago',
+                repo: 'TechCorp-Frontend'
+            },
+            {
+                type: 'merge',
+                title: 'Merged pull request #24',
+                details: 'Feature: User settings page implementation',
+                user: 'Emma Davis',
+                time: '6 hours ago',
+                repo: 'TechCorp-Frontend'
+            },
+            {
+                type: 'commit',
+                title: 'Database schema update',
+                details: 'Added new tables for user preferences',
+                user: 'Alex Chen',
+                time: '8 hours ago',
+                repo: 'Database-Scripts'
+            },
+            {
+                type: 'push',
+                title: 'Updated documentation',
+                details: 'Added API endpoint documentation',
+                user: 'John Smith',
+                time: '1 day ago',
+                repo: 'Documentation'
+            }
+        ];
+
+        // Code samples for different files
+        const codeFiles = {
+            'app.js': `<div class="code-line">
+                <span class="line-number">1</span>
+                <span class="line-content"><span class="comment">// Main application entry point</span></span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">2</span>
+                <span class="line-content"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">3</span>
+                <span class="line-content"><span class="keyword">import</span> { BrowserRouter } <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">4</span>
+                <span class="line-content"></span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">5</span>
+                <span class="line-content"><span class="keyword">function</span> <span class="function">App</span>() {</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">6</span>
+                <span class="line-content">  <span class="keyword">return</span> (</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">7</span>
+                <span class="line-content">    &lt;<span class="function">BrowserRouter</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">8</span>
+                <span class="line-content">      &lt;<span class="function">Dashboard</span> /&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">9</span>
+                <span class="line-content">    &lt;/<span class="function">BrowserRouter</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">10</span>
+                <span class="line-content">  );</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">11</span>
+                <span class="line-content">}</span>
+            </div>`,
+            
+            'style.css': `<div class="code-line">
+                <span class="line-number">1</span>
+                <span class="line-content"><span class="comment">/* Dashboard Styles */</span></span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">2</span>
+                <span class="line-content"><span class="function">.dashboard-container</span> {</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">3</span>
+                <span class="line-content">  <span class="variable">max-width</span>: <span class="string">1400px</span>;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">4</span>
+                <span class="line-content">  <span class="variable">margin</span>: <span class="string">0 auto</span>;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">5</span>
+                <span class="line-content">  <span class="variable">background</span>: <span class="function">linear-gradient</span>(<span class="string">135deg, #667eea, #764ba2</span>);</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">6</span>
+                <span class="line-content">}</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">7</span>
+                <span class="line-content"></span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">8</span>
+                <span class="line-content"><span class="function">.folder-card</span> {</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">9</span>
+                <span class="line-content">  <span class="variable">transition</span>: <span class="string">all 0.3s ease</span>;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">10</span>
+                <span class="line-content">  <span class="variable">border-radius</span>: <span class="string">20px</span>;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">11</span>
+                <span class="line-content">}</span>
+            </div>`,
+            
+            'main.html': `<div class="code-line">
+                <span class="line-number">1</span>
+                <span class="line-content">&lt;!DOCTYPE html&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">2</span>
+                <span class="line-content">&lt;<span class="function">html</span> <span class="variable">lang</span>=<span class="string">"en"</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">3</span>
+                <span class="line-content">&lt;<span class="function">head</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">4</span>
+                <span class="line-content">  &lt;<span class="function">meta</span> <span class="variable">charset</span>=<span class="string">"UTF-8"</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">5</span>
+                <span class="line-content">  &lt;<span class="function">title</span>&gt;TechCorp Learning Hub&lt;/<span class="function">title</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">6</span>
+                <span class="line-content">&lt;/<span class="function">head</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">7</span>
+                <span class="line-content">&lt;<span class="function">body</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">8</span>
+                <span class="line-content">  &lt;<span class="function">div</span> <span class="variable">id</span>=<span class="string">"root"</span>&gt;&lt;/<span class="function">div</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">9</span>
+                <span class="line-content">&lt;/<span class="function">body</span>&gt;</span>
+            </div>
+            <div class="code-line">
+                <span class="line-number">10</span>
+                <span class="line-content">&lt;/<span class="function">html</span>&gt;</span>
+            </div>`
+        };
+
+        // Initialize the page
+        function initializePage() {
+            populateRepositories();
+            populateActivity();
+            switchFile('app.js');
+        }
+
+        // Populate repositories list
+        function populateRepositories() {
+            const reposList = document.getElementById('reposList');
+            reposList.innerHTML = '';
+
+            repositories.forEach((repo, index) => {
+                const repoItem = document.createElement('div');
+                repoItem.className = `repo-item ${repo.active ? 'active' : ''}`;
+                repoItem.onclick = () => selectRepository(index);
+                
+                repoItem.innerHTML = `
+                    <div class="repo-header">
+                        <div class="repo-name">
+                            📁 ${repo.name}
+                        </div>
+                        <div class="repo-status status-${repo.status}">${repo.status}</div>
+                    </div>
+                    <div class="repo-description">${repo.description}</div>
+                    <div class="repo-stats">
+                        <div class="repo-stat">
+                            <span>💻</span> ${repo.language}
+                        </div>
+                        <div class="repo-stat">
+                            <span>⭐</span> ${repo.stars}
+                        </div>
+                        <div class="repo-stat">
+                            <span>🔄</span> ${repo.forks}
+                        </div>
+                        <div class="repo-stat">
+                            <span>🐛</span> ${repo.issues} issues
+                        </div>
+                        <div class="repo-stat">
+                            <span>🕒</span> ${repo.lastCommit}
+                        </div>
+                    </div>
+                `;
+                
+                reposList.appendChild(repoItem);
+            });
+        }
+
+        // Populate recent activity
+        function populateActivity() {
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '';
+
+            activities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                
+                const iconClass = activity.type === 'commit' ? 'commit-icon' : 
+                                 activity.type === 'push' ? 'push-icon' : 'merge-icon';
+                const iconEmoji = activity.type === 'commit' ? '💾' : 
+                                 activity.type === 'push' ? '🚀' : '🔀';
+                
+                activityItem.innerHTML = `
+                    <div class="activity-icon ${iconClass}">${iconEmoji}</div>
+                    <div class="activity-content">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-details">${activity.details}</div>
+                        <div class="activity-time">${activity.user} • ${activity.time} • ${activity.repo}</div>
+                    </div>
+                `;
+                
+                activityList.appendChild(activityItem);
+            });
+        }
+
+        // Select a repository
+        function selectRepository(index) {
+            // Remove active class from all repos
+            document.querySelectorAll('.repo-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to selected repo
+            document.querySelectorAll('.repo-item')[index].classList.add('active');
+            
+            // Update code preview based on selected repo
+            const repo = repositories[index];
+            updateCodePreview(repo);
+        }
+
+        // Update code preview based on selected repository
+        function updateCodePreview(repo) {
+            const codeContent = document.getElementById('codeContent');
+            
+            // Simple logic to show different code based on repo type
+            if (repo.language === 'JavaScript' || repo.language === 'TypeScript') {
+                switchFile('app.js');
+            } else if (repo.language === 'SQL') {
+                // Show SQL code
+                codeContent.innerHTML = `
+                    <div class="code-line">
+                        <span class="line-number">1</span>
+                        <span class="line-content"><span class="comment">-- User preferences table</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">2</span>
+                        <span class="line-content"><span class="keyword">CREATE TABLE</span> user_preferences (</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">3</span>
+                        <span class="line-content">    id <span class="keyword">SERIAL PRIMARY KEY</span>,</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">4</span>
+                        <span class="line-content">    user_id <span class="keyword">INTEGER REFERENCES</span> users(id),</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">5</span>
+                        <span class="line-content">    theme <span class="keyword">VARCHAR</span>(<span class="string">20</span>) <span class="keyword">DEFAULT</span> <span class="string">'light'</span>,</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">6</span>
+                        <span class="line-content">    notifications <span class="keyword">BOOLEAN DEFAULT</span> <span class="string">true</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">7</span>
+                        <span class="line-content">);</span>
+                    </div>
+                `;
+            } else if (repo.language === 'Shell') {
+                // Show Shell script
+                codeContent.innerHTML = `
+                    <div class="code-line">
+                        <span class="line-number">1</span>
+                        <span class="line-content"><span class="comment">#!/bin/bash</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">2</span>
+                        <span class="line-content"><span class="comment"># Docker deployment script</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">3</span>
+                        <span class="line-content"></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">4</span>
+                        <span class="line-content"><span class="keyword">echo</span> <span class="string">"Building Docker image..."</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">5</span>
+                        <span class="line-content">docker build -t techcorp-app .</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">6</span>
+                        <span class="line-content"></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">7</span>
+                        <span class="line-content"><span class="keyword">echo</span> <span class="string">"Deploying to production..."</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">8</span>
+                        <span class="line-content">docker run -d -p 80:3000 techcorp-app</span>
+                    </div>
+                `;
+            } else {
+                switchFile('app.js'); // Default to JavaScript
+            }
+        }
+
+        // Switch between file tabs
+        function switchFile(fileName) {
+            // Update active tab
+            document.querySelectorAll('.file-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event?.target?.classList.add('active');
+            
+            // Update code content
+            const codeContent = document.getElementById('codeContent');
+            codeContent.innerHTML = codeFiles[fileName] || codeFiles['app.js'];
+        }
+
+        // Create new repository
+        function createRepo() {
+            const repoName = prompt('Enter repository name:');
+            if (repoName) {
+                const newRepo = {
+                    name: repoName,
+                    description: 'New repository created by ' + document.querySelector('.user-name').textContent,
+                    status: 'private',
+                    language: 'JavaScript',
+                    stars: 0,
+                    forks: 0,
+                    issues: 0,
+                    lastCommit: 'just now',
+                    active: true
+                };
+                
+                repositories.unshift(newRepo);
+                populateRepositories();
+                
+                // Add to activity
+                activities.unshift({
+                    type: 'commit',
+                    title: 'Created new repository',
+                    details: `New repository "${repoName}" has been created`,
+                    user: document.querySelector('.user-name').textContent,
+                    time: 'just now',
+                    repo: repoName
+                });
+                populateActivity();
+                
+                // Update stats
+                updateStats();
+            }
+        }
+
+        // Refresh repositories
+        function refreshRepos() {
+            const button = event.target;
+            button.style.transform = 'rotate(360deg)';
+            
+            setTimeout(() => {
+                button.style.transform = '';
+                populateRepositories();
+                populateActivity();
+                
+                // Show refresh notification
+                showNotification('Repositories refreshed successfully!');
+            }, 500);
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalRepos = repositories.length;
+            const activeRepos = repositories.filter(repo => repo.active).length;
+            const totalCommits = repositories.reduce((sum, repo) => sum + repo.stars, 0);
+            const totalBranches = Math.ceil(totalRepos * 0.3); // Estimate
+            
+            document.querySelector('.stat-item:nth-child(1) .stat-number').textContent = totalRepos;
+            document.querySelector('.stat-item:nth-child(2) .stat-number').textContent = activeRepos;
+            document.querySelector('.stat-item:nth-child(3) .stat-number').textContent = totalCommits;
+            document.querySelector('.stat-item:nth-child(4) .stat-number').textContent = totalBranches;
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, #4CAF50, #8BC34A);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideInRight 0.3s ease;
+                box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Handle keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + N for new repo
+            if (e.ctrlKey && e.key === 'n') {
+                e.preventDefault();
+                createRepo();
+            }
+            // Ctrl + R for refresh
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                refreshRepos();
+            }
+            // Escape to go back
+            if (e.key === 'Escape') {
+                history.back();
+            }
+        });
+
+        // Auto-refresh activity every 30 seconds
+        setInterval(() => {
+            // Simulate new activity
+            const randomActivities = [
+                {
+                    type: 'commit',
+                    title: 'Updated dependencies',
+                    details: 'Bumped React version to latest stable',
+                    user: 'Sarah Johnson',
+                    time: 'just now',
+                    repo: 'TechCorp-Frontend'
+                },
+                {
+                    type: 'push',
+                    title: 'Code review completed',
+                    details: 'Approved pull request for bug fixes',
+                    user: 'Mike Rodriguez',
+                    time: 'just now',
+                    repo: 'API-Gateway'
+                }
+            ];
+            
+            // Randomly add activity (10% chance)
+            if (Math.random() < 0.1) {
+                const newActivity = randomActivities[Math.floor(Math.random() * randomActivities.length)];
+                activities.unshift(newActivity);
+                if (activities.length > 10) activities.pop(); // Keep only last 10
+                populateActivity();
+            }
+        }, 30000);
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+
+        // Handle file tab clicks without event target
+        window.switchFile = function(fileName) {
+            // Find and update active tab
+            document.querySelectorAll('.file-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent === fileName) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Update code content
+            const codeContent = document.getElementById('codeContent');
+            codeContent.innerHTML = codeFiles[fileName] || codeFiles['app.js'];
+        };
+
+        // Add smooth scrolling to repositories list
+        let isScrolling = false;
+        document.addEventListener('DOMContentLoaded', function() {
+            const reposList = document.getElementById('reposList');
+            
+            reposList.addEventListener('scroll', function() {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(function() {
+                        // Add scroll shadow effect
+                        const scrollTop = reposList.scrollTop;
+                        const scrollHeight = reposList.scrollHeight;
+                        const clientHeight = reposList.clientHeight;
+                        
+                        if (scrollTop > 10) {
+                            reposList.style.borderTop = '1px solid rgba(255, 87, 34, 0.2)';
+                        } else {
+                            reposList.style.borderTop = 'none';
+                        }
+                        
+                        if (scrollTop < scrollHeight - clientHeight - 10) {
+                            reposList.style.borderBottom = '1px solid rgba(255, 87, 34, 0.2)';
+                        } else {
+                            reposList.style.borderBottom = 'none';
+                        }
+                        
+                        isScrolling = false;
+                    });
+                }
+                isScrolling = true;
+            });
+        });
+    </script>
+</body>
+</html>
