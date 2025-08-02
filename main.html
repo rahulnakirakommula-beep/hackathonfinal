@@ -50,15 +50,6 @@
             background-clip: text;
         }
 
-        .profile-name {
-            font-weight: 600;
-            color: #333;
-            padding: 0.5rem 1rem;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 25px;
-            border: 2px solid rgba(102, 126, 234, 0.3);
-        }
-
         .search-container {
             flex: 1;
             max-width: 400px;
@@ -104,6 +95,98 @@
             background: rgba(102, 126, 234, 0.2);
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Profile Dropdown */
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            color: #333;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .profile-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .profile-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .profile-dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1rem;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 15px 15px 0 0;
+        }
+
+        .dropdown-item:last-child {
+            border-radius: 0 0 15px 15px;
+            color: #e74c3c;
+        }
+
+        .dropdown-item:last-child:hover {
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0.5rem 0;
         }
 
         /* AI Agent Button */
@@ -502,14 +585,33 @@
     <nav class="navbar">
         <div class="navbar-left">
             <div class="company-name">TechCorp Inc.</div>
-            <div class="profile-name">John Smith</div>
             <div class="search-container">
                 <input type="text" class="search-bar" placeholder="Search anything...">
             </div>
         </div>
         <div class="navbar-right">
-            <a href="#" class="nav-item">Employee Details</a>
-            <a href="#" class="nav-item">Profile</a>
+            <a href="#" class="nav-item">Theme</a>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="profile-btn" onclick="toggleProfileDropdown()">
+                    👤 Profile
+                    <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" onclick="openSettings()">
+                        ⚙️ Settings
+                    </div>
+                    <div class="dropdown-item" onclick="openAccount()">
+                        👤 Account
+                    </div>
+                    <div class="dropdown-item" onclick="openNotifications()">
+                        🔔 Notifications
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="logout()">
+                        🚪 Logout
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -602,6 +704,45 @@
         // Enhanced AI Agent functionality
         let aiAgentActive = true;
         let aiPersonality = 'helpful';
+
+        // Profile dropdown functionality
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Profile dropdown actions
+        function openSettings() {
+            alert('⚙️ Opening Settings...\n\n• Theme Preferences\n• Notification Settings\n• Privacy Controls\n• AI Agent Configuration\n• Language Settings');
+            document.getElementById('profileDropdown').classList.remove('active');
+        }
+
+        function openAccount() {
+            alert('👤 Opening Account Settings...\n\n• Profile Information\n• Security Settings\n• Password Management\n• Two-Factor Authentication\n• Account Preferences');
+            document.getElementById('profileDropdown').classList.remove('active');
+        }
+
+        function openNotifications() {
+            alert('🔔 Notification Center\n\n• 3 New Messages\n• 2 System Updates\n• 1 AI Agent Report\n• Project Deadline Reminder');
+            document.getElementById('profileDropdown').classList.remove('active');
+        }
+
+        function logout() {
+            if (confirm('🚪 Are you sure you want to logout?')) {
+                alert('Logging out... Goodbye!');
+                // In a real app, you would redirect to login page
+                // window.location.href = 'login.html';
+            }
+            document.getElementById('profileDropdown').classList.remove('active');
+        }
 
         // Chat functionality with AI Agent enhancements
         function sendMessage() {
