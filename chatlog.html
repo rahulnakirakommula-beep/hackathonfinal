@@ -881,5 +881,8 @@
             alert('File attachment feature would open here');
         }
 
-        function addEmoji() {
-            const input
+        function addEmoji(emoji) {
+    const input = document.getElementById('chatInput');
+    input.value += emoji;
+    input.focus();
+}
