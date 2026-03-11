@@ -12,7 +12,7 @@ My Role
 Team Lead and Frontend Contributor
 
 My Contributions
-Coordinated task distribution and timelines during the hackathon
+Coordinated task distribution and timelines during the hackathon.
 Designed page structure and navigation flow
 Organized the project into a modular directory structure
 Contributed to frontend development and final integration
